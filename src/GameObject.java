@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class GameObject {
@@ -12,12 +13,15 @@ public class GameObject {
 		this.width = width;
 		this.height = height;
 	}
-	
+	 
 	void update() {
-		y++;		
+	
+		y += 10;
+		
 	}
 	
 	void draw(Graphics g) {
+	g.setColor(Color.DARK_GRAY);
 	g.fillRect(x, y, width, height);
 	}
 	

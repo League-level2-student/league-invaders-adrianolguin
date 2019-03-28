@@ -11,8 +11,8 @@ JFrame frame = new JFrame();
 static GamePanel panel = new GamePanel();
 
 
-final int width = 500;
-final int height = 800;
+static final int width = 500;
+static final int height = 800;
 
 void setup() {
 frame.add(panel);
