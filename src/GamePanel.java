@@ -17,16 +17,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	final int END_STATE = 2;
 
+	boolean pressed = false;
 	int CURRENT_STATE = MENU_STATE;
-	Font titleFont;
 	Timer timer;
 	GameObject object;
-
+	Rocketship rocket;
+	Font titleFont;
+	Font subFont1;
+	Font subFont2;
+	
 	GamePanel() {
+		subFont1 = new Font("Arial", Font.PLAIN, 24);
+		subFont2 = new Font("Arial", Font.PLAIN, 24);
 		titleFont = new Font("Arial", Font.PLAIN, 48);
-		
 		timer = new Timer(1000 / 60, this);
 		object = new GameObject(10, 10, 100, 100);
+		rocket = new Rocketship(250,700,50,50);
 	}
 
 	void startGame() {
@@ -40,7 +46,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
-
+	rocket.update();
 	}
 
 	void updateEndState() {
@@ -54,13 +60,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
 		
 		g.setFont(titleFont);
-        g.drawString("Start", LeagueInvaders.width, LeagueInvaders.height);
+		g.setColor(Color.yellow);
+        g.drawString("LEAGUE INVADERS", 25, 200);
 
+		g.setFont(subFont1);
+		g.setColor(Color.yellow);
+		g.drawString("Press ENTER to continue", 120, 350);
+		
+		g.setFont(subFont2);
+		g.setColor(Color.yellow);
+		g.drawString("Press SPACE for instructions", 85, 500);
 	}
 
 	void drawGameState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
+		
+		rocket.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
@@ -96,15 +112,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
-	////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		
+		
 		int keyPressed = e.getKeyCode();
 
-		// System.out.println("The keytext is: " + idk);
-
+		if(keyPressed != KeyEvent.VK_ENTER) {
+		pressed = true;
+		}
+		
+		if(CURRENT_STATE == GAME_STATE) {
+			rocket.update(e);
+			}
+		
 		if (keyPressed == KeyEvent.VK_ENTER) {
 			CURRENT_STATE++;
 			System.out.println("Current State has been updated to: " + CURRENT_STATE);
@@ -112,7 +136,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				CURRENT_STATE = MENU_STATE;
 			}
 		}
-
+		
 	}
 
 	@Override
