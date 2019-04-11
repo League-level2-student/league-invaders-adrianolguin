@@ -17,11 +17,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	final int END_STATE = 2;
 
-	boolean pressed = false;
+	boolean left;
+	boolean right;
+	boolean up;
+	boolean down;
+	
 	int CURRENT_STATE = MENU_STATE;
 	Timer timer;
 	GameObject object;
 	Rocketship rocket;
+	ObjectManager manager;
 	Font titleFont;
 	Font subFont1;
 	Font subFont2;
@@ -33,6 +38,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		timer = new Timer(1000 / 60, this);
 		object = new GameObject(10, 10, 100, 100);
 		rocket = new Rocketship(250,700,50,50);
+		manager = new ObjectManager(rocket);
 	}
 
 	void startGame() {
@@ -46,7 +52,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
-	rocket.update();
+	manager.update();
 	}
 
 	void updateEndState() {
@@ -76,7 +82,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
 		
-		rocket.draw(g);
+		manager.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
@@ -87,6 +93,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	//////////////////////////////////////////////////////////
 
 	public void actionPerformed(ActionEvent arg0) {
+		
+		if(up && left) {
+		rocket.update("upLeft");
+		} else if(up && right) {
+		rocket.update("upRight");
+		} else if(down && left) {
+			rocket.update("downLeft");
+		} else if(down && right) {
+			rocket.update("downRight");
+		} else if(up) {
+			rocket.update("up");
+		} else if(down) {
+			rocket.update("down");
+		} else if(left) {
+			rocket.update("left");
+		}else if(right) {
+			rocket.update("right");
+		}
+		
 		if (CURRENT_STATE == MENU_STATE) {
 			updateMenuState();
 		} else if (CURRENT_STATE == GAME_STATE) {
@@ -121,13 +146,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		int keyPressed = e.getKeyCode();
 
-		if(keyPressed != KeyEvent.VK_ENTER) {
-		pressed = true;
-		}
-		
 		if(CURRENT_STATE == GAME_STATE) {
-			rocket.update(e);
-			}
+			
+		if(keyPressed == KeyEvent.VK_UP) {
+			up = true;
+		} else if(keyPressed == KeyEvent.VK_DOWN) {
+			down = true;
+		} else if(keyPressed == KeyEvent.VK_LEFT) {
+			left = true;
+		} else if (keyPressed == KeyEvent.VK_RIGHT) {
+			right = true;
+		}
+		}
 		
 		if (keyPressed == KeyEvent.VK_ENTER) {
 			CURRENT_STATE++;
@@ -142,12 +172,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
+		
+		int keyPressed = e.getKeyCode();
+		
+		if(CURRENT_STATE == GAME_STATE) {
+			
+		if(keyPressed == KeyEvent.VK_UP) {
+			up = false;
+		} else if(keyPressed == KeyEvent.VK_DOWN) {
+			down = false;
+		} else if(keyPressed == KeyEvent.VK_LEFT) {
+			left = false;
+		} else if (keyPressed == KeyEvent.VK_RIGHT) {
+			right = false;
+		}
+		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

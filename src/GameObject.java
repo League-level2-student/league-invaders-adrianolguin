@@ -26,29 +26,39 @@ public class GameObject {
 
 class Rocketship extends GameObject {
 	public int speed = 5;
+	public boolean isAlive;
 	
 	Rocketship(int x, int y, int width, int height) {
 		super(x, y, width, height);
 
 	}
 
-	void update(KeyEvent e) {
+	void update(String keyPressed) {
 		
-	int keyPressed = e.getKeyCode();
-		
-		if(keyPressed == KeyEvent.VK_UP) {
-			y-=speed;
-		} else if(keyPressed == KeyEvent.VK_DOWN) {
-			y+=speed;
-		} else if(keyPressed == KeyEvent.VK_LEFT) {
-			x-=speed;
-		} else if(keyPressed == KeyEvent.VK_RIGHT) {
-			x+=speed;
-		} else {
-			
-		}
-		
+	if(keyPressed.equals("up")) {
+	y-=speed;
+	} else if(keyPressed.equals("down")) {
+	y+=speed;	
+	} else if(keyPressed.equals("left")) {
+	x-=speed;
+	} else if(keyPressed.equals("right")) {
+	x+=speed;
+	} else if(keyPressed.equals("upRight")) {
+		y-=speed;
+		x+=speed;
+	} else if(keyPressed.equals("upLeft")) {
+		y-=speed;
+		x-=speed;
+	} else if(keyPressed.equals("downRight")) {
+		y+=speed;
+		x+=speed;
+	} else if(keyPressed.equals("downLeft")) {
+		y+=speed;
+		x-=speed;
 	}
+	}
+		
+		
 
 	void draw(Graphics g) {
 
