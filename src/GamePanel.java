@@ -17,6 +17,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	final int END_STATE = 2;
 
+	final int projSize = 10;
+	
 	boolean left;
 	boolean right;
 	boolean up;
@@ -35,7 +37,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		subFont1 = new Font("Arial", Font.PLAIN, 24);
 		subFont2 = new Font("Arial", Font.PLAIN, 24);
 		titleFont = new Font("Arial", Font.PLAIN, 48);
-		timer = new Timer(1000 / 60, this);
+		timer = new Timer(1000/60, this);
 		object = new GameObject(10, 10, 100, 100);
 		rocket = new Rocketship(250,700,50,50);
 		manager = new ObjectManager(rocket);
@@ -43,6 +45,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void startGame() {
 		timer.start();
+	
 	}
 
 	//////////////////////////////////////////////
@@ -52,7 +55,33 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
+		
+		if(!up && !down && !left && !right) {
+		
+		}else if(up && left) {
+			rocket.update("upLeft");
+			} else if(up && right) {
+			rocket.update("upRight");
+			} else if(down && left) {
+				rocket.update("downLeft");
+			} else if(down && right) {
+				rocket.update("downRight");
+			} else if(up) {
+				rocket.update("up");
+			} else if(down) {
+				rocket.update("down");
+			} else if(left) {
+				rocket.update("left");
+			}else if(right) {
+				rocket.update("right");
+			} 
+	
+	manager.manageEnemies();	
+		
 	manager.update();
+	
+	manager.purgeObjetcs();
+	System.out.println(manager.aliens.size());
 	}
 
 	void updateEndState() {
@@ -81,7 +110,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawGameState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
-		
 		manager.draw(g);
 	}
 
@@ -93,24 +121,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	//////////////////////////////////////////////////////////
 
 	public void actionPerformed(ActionEvent arg0) {
-		
-		if(up && left) {
-		rocket.update("upLeft");
-		} else if(up && right) {
-		rocket.update("upRight");
-		} else if(down && left) {
-			rocket.update("downLeft");
-		} else if(down && right) {
-			rocket.update("downRight");
-		} else if(up) {
-			rocket.update("up");
-		} else if(down) {
-			rocket.update("down");
-		} else if(left) {
-			rocket.update("left");
-		}else if(right) {
-			rocket.update("right");
-		}
 		
 		if (CURRENT_STATE == MENU_STATE) {
 			updateMenuState();
@@ -145,7 +155,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		
 		int keyPressed = e.getKeyCode();
-
+		
+		if (keyPressed == KeyEvent.VK_ENTER) {
+			CURRENT_STATE++;
+			System.out.println("Current State has been updated to: " + CURRENT_STATE);
+			if (CURRENT_STATE > END_STATE) {
+				CURRENT_STATE = MENU_STATE;
+			}
+		}
+		
 		if(CURRENT_STATE == GAME_STATE) {
 			
 		if(keyPressed == KeyEvent.VK_UP) {
@@ -156,22 +174,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			left = true;
 		} else if (keyPressed == KeyEvent.VK_RIGHT) {
 			right = true;
+		} else if(keyPressed == KeyEvent.VK_SPACE) {
+		manager.addProjectile(new Projectile(rocket.x + rocket.width/2 - projSize/2, rocket.y + rocket.height/2 - projSize/2, projSize, projSize));
 		}
 		}
-		
-		if (keyPressed == KeyEvent.VK_ENTER) {
-			CURRENT_STATE++;
-			System.out.println("Current State has been updated to: " + CURRENT_STATE);
-			if (CURRENT_STATE > END_STATE) {
-				CURRENT_STATE = MENU_STATE;
-			}
-		}
-		
 	}
+		
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 		int keyPressed = e.getKeyCode();
 		
