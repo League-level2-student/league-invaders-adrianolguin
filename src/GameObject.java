@@ -1,22 +1,29 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class GameObject {
+	
+	Rectangle collisionBox;
+	
 	int x;
 	int y;
 	int width;
 	int height;
+	boolean isAlive = true;
+	int speed;
 
 	GameObject(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.collisionBox = new Rectangle(x,y,width,height);
 	}
 
 	void update() {
-
+	collisionBox.setBounds(x, y, width, height);
 	}
 
 	void draw(Graphics g) {
@@ -26,14 +33,14 @@ public class GameObject {
 
 class Alien extends GameObject {
 
-	int speed = 5;
-	boolean isAlive = true;
 
 	Alien(int x, int y, int width, int height) {
 		super(x, y, width, height);
+		speed = 5;
 	}
 
 	void update() {
+		 super.update();
 		y += speed;
 		if (y > LeagueInvaders.height) {
 			isAlive = false;
@@ -48,15 +55,17 @@ class Alien extends GameObject {
 
 class Rocketship extends GameObject {
 	public int speed = 5;
-	public boolean isAlive;
+	
 
 	Rocketship(int x, int y, int width, int height) {
 		super(x, y, width, height);
-
+		isAlive = true;
 	}
 
 	void update(String keyPressed) {
 
+		 super.update();
+		
 		if (keyPressed.equals("up")) {
 			y -= speed;
 		} else if (keyPressed.equals("down")) {
@@ -88,33 +97,11 @@ class Rocketship extends GameObject {
 
 	}
 
+
 }
+
 ///////////////////
 
-class Projectile extends GameObject {
-	Projectile(int x, int y, int width, int height) {
-		super(x, y, width, height);
-		// TODO Auto-generated constructor stub
-	}
 
-	boolean isAlive = true;
-	int x;
-	int y;
-	int width;
-	int height;
-	int speed = 10;
+	
 
-	void draw(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(x, y, width, height);
-	}
-
-	void update() {
-		y -= speed;
-
-		if (y < 0) {
-			isAlive = false;
-		}
-	}
-
-}

@@ -27,6 +27,7 @@ aliens.add(a);
 }
 
 void update() {
+		
 	rocket.update();
 	for(int x = 0; x < projectiles.size(); x++) {
 	projectiles.get(x).update();
@@ -35,6 +36,8 @@ void update() {
 	for(int x = 0; x < aliens.size(); x++) {
 	aliens.get(x).update();
 	}
+	
+	checkCollision();
 	
 }
 
@@ -52,6 +55,7 @@ void draw(Graphics g) {
 	
 }
 
+
 void manageEnemies() {
 	if(System.currentTimeMillis() - enemyTimer >= enemySpawnTime){
         addAlien(new Alien(new Random().nextInt(LeagueInvaders.width - 50), 0, 50, 50));
@@ -60,13 +64,14 @@ enemyTimer = System.currentTimeMillis();
 
 }
 
-void purgeObjetcs() {
+void purgeObjects() {
+
 	
 	for(int x = 0; x < projectiles.size(); x++) {
-	if(projectiles.get(x).isAlive == false) {
-		projectiles.remove(x);
-	}
-	}
+		if(projectiles.get(x).isAlive == false) {
+			projectiles.remove(x);
+		}
+		}
 
 	for(int x = 0; x < aliens.size(); x++) {
 	if(aliens.get(x).isAlive == false) {
@@ -76,4 +81,22 @@ void purgeObjetcs() {
 	
 }
 
+
+void checkCollision() {
+	for(Alien a : aliens){
+		if(rocket.collisionBox.intersects(a.collisionBox)){
+			rocket.isAlive = false;
+		
+		}
+		for(int x = 0; x < projectiles.size();x++) {
+			if(a.collisionBox.intersects(projectiles.get(x).collisionBox)){
+			a.isAlive = false;
+			projectiles.get(x).isAlive = false;
+			}
+		}
+	}
+	
+	
+	
+}
 }

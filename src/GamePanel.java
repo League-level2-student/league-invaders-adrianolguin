@@ -11,6 +11,9 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
+	Projectile test = new Projectile(LeagueInvaders.width,LeagueInvaders.height/2,10,10);
+	
+	
 	final int MENU_STATE = 0;
 
 	final int GAME_STATE = 1;
@@ -56,6 +59,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void updateGameState() {
 		
+	
+		
 		if(!up && !down && !left && !right) {
 		
 		}else if(up && left) {
@@ -80,8 +85,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 	manager.update();
 	
-	manager.purgeObjetcs();
-	System.out.println(manager.aliens.size());
+	manager.purgeObjects();
+//	System.out.println(manager.projectiles.size());
+	if(!rocket.isAlive) {
+		CURRENT_STATE = END_STATE;
+		System.out.println("died");
+
+		}
+	
 	}
 
 	void updateEndState() {
@@ -122,7 +133,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public void actionPerformed(ActionEvent arg0) {
 		
+		
 		if (CURRENT_STATE == MENU_STATE) {
+			rocket.isAlive = true;
 			updateMenuState();
 		} else if (CURRENT_STATE == GAME_STATE) {
 			updateGameState();
@@ -158,8 +171,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		if (keyPressed == KeyEvent.VK_ENTER) {
 			CURRENT_STATE++;
-			System.out.println("Current State has been updated to: " + CURRENT_STATE);
+			System.out.println(CURRENT_STATE);
+			//System.out.println("Current State has been updated to: " + CURRENT_STATE);
 			if (CURRENT_STATE > END_STATE) {
+				rocket = new Rocketship(250,700,50,50);
+				manager = new ObjectManager(rocket);
+			System.out.println("test");
 				CURRENT_STATE = MENU_STATE;
 			}
 		}
@@ -176,6 +193,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			right = true;
 		} else if(keyPressed == KeyEvent.VK_SPACE) {
 		manager.addProjectile(new Projectile(rocket.x + rocket.width/2 - projSize/2, rocket.y + rocket.height/2 - projSize/2, projSize, projSize));
+		System.out.println("space");
+		up = down = left = right = false;
 		}
 		}
 	}
