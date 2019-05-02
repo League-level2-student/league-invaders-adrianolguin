@@ -7,36 +7,28 @@ import javax.swing.JPanel;
 
 public class LeagueInvaders {
 
-JFrame frame = new JFrame();	
-static GamePanel panel = new GamePanel();
+	JFrame frame = new JFrame();
+	static GamePanel panel = new GamePanel();
 
+	static final int width = 500;
+	static final int height = 800;
 
-static final int width = 500;
-static final int height = 800;
+	void setup() {
+		frame.add(panel);
+		frame.setVisible(true);
+		frame.addKeyListener(panel);
+		frame.getContentPane().setPreferredSize(new Dimension(width, height));
+		frame.pack();
+		frame.setSize(width, height);
 
-void setup() {
-frame.add(panel);
-frame.setVisible(true);
-frame.addKeyListener(panel);
-frame.getContentPane().setPreferredSize(new Dimension(width,height));
-frame.pack();
-frame.setSize(width,height);
+	}
 
+	public static void main(String[] args) {
 
+		LeagueInvaders main = new LeagueInvaders();
+		main.setup();
 
-}
+		panel.startGame();
 
-public static void main(String[] args) {
-	
-	LeagueInvaders main = new LeagueInvaders();
-	main.setup();
-
-	panel.startGame();
-	
-	
-	
-	
-	
-	
-}
+	}
 }

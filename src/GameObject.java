@@ -4,9 +4,9 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class GameObject {
-	
+
 	Rectangle collisionBox;
-	
+
 	int x;
 	int y;
 	int width;
@@ -19,11 +19,11 @@ public class GameObject {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.collisionBox = new Rectangle(x,y,width,height);
+		this.collisionBox = new Rectangle(x, y, width, height);
 	}
 
 	void update() {
-	collisionBox.setBounds(x, y, width, height);
+		collisionBox.setBounds(x, y, width, height);
 	}
 
 	void draw(Graphics g) {
@@ -33,14 +33,13 @@ public class GameObject {
 
 class Alien extends GameObject {
 
-
 	Alien(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed = 5;
+		speed = 10;
 	}
 
 	void update() {
-		 super.update();
+		super.update();
 		y += speed;
 		if (y > LeagueInvaders.height) {
 			isAlive = false;
@@ -48,14 +47,14 @@ class Alien extends GameObject {
 	}
 
 	void draw(Graphics g) {
-		g.setColor(Color.YELLOW);
-		g.fillRect(x, y, width, height);
+
+		g.drawImage(GamePanel.alienImg, x, y, width, height, null);
+
 	}
 }
 
 class Rocketship extends GameObject {
 	public int speed = 5;
-	
 
 	Rocketship(int x, int y, int width, int height) {
 		super(x, y, width, height);
@@ -64,8 +63,8 @@ class Rocketship extends GameObject {
 
 	void update(String keyPressed) {
 
-		 super.update();
-		
+		super.update();
+
 		if (keyPressed.equals("up")) {
 			y -= speed;
 		} else if (keyPressed.equals("down")) {
@@ -91,17 +90,10 @@ class Rocketship extends GameObject {
 
 	void draw(Graphics g) {
 
-		g.setColor(Color.BLUE);
-
-		g.fillRect(x, y, width, height);
+		g.drawImage(GamePanel.rocketImg, x, y, width, height, null);
 
 	}
-
 
 }
 
 ///////////////////
-
-
-	
-
